@@ -17,7 +17,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">音友尽有测试</span>
             </button>
-            <a class="navbar-brand" href="#">主页</a>
+            <a class="navbar-brand" href="/">主页</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -52,32 +52,21 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 clo-md-12 clo-sm-12 clo-xs-12">
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h2>
             <hr>
-            <form action="/publish" method="post">
-                <div class="form-group">
-                    <label for="title">标题:</label>
-                    <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="标题">
+            <div class="media" th:each="question : ${questions}">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
+                    </a>
                 </div>
-                <div class="form-group">
-                    <label for="description">内容</label>
-                    <textarea name="description" id="description" th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span><br>
+                    <span class="text-desc"><span th:text="${question.commentCount }"></span>个回复|
+                        <span th:text="${question.viewCount}"></span>个浏览| <span th:text="${#dates.format(question.gmtCreate,'yyy MMMM dd')}"></span></span>
                 </div>
-                <div class="form-group">
-                    <label for="tag">添加标签</label>
-                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签">
-                </div>
-
-                <div class="container-fluid main">
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-9 clo-md-12 clo-sm-12 clo-xs-12" th:text="${error}" th:if="${error != null}"></div>
-                        <div class="col-lg-3 clo-md-12 clo-sm-12 clo-xs-12">
-                            <button type="submit" class="btn btn-success btn-publish ">发布</button>
-                        </div>
-
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
         <div class="col-lg-3 clo-md-12 clo-sm-12 clo-xs-12">
             <h3>热门动态</h3>
