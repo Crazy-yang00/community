@@ -7,11 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import yang.community.community.mapper.QuestionMapper;
-import yang.community.community.mapper.UserMapper;
 import yang.community.community.model.Question;
 import yang.community.community.model.User;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -19,8 +17,6 @@ public class PublishController {
 
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
 
     @GetMapping("/publish")
     public String publish(){
@@ -51,20 +47,7 @@ public class PublishController {
             return "/publish";
         }
 
-
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length!=0)
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                user=userMapper.findByToken(token);
-                if (user != null){
-                    request.getSession().setAttribute("user",user);
-                }
-                break;
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if (user ==null){
             model.addAttribute("error","用户未登录");
             return "publish";
