@@ -110,4 +110,17 @@ public class QuestionService {
         questionDTO.setUser(user);
         return questionDTO;
     }
+
+    public void createOrUpadte(Question question) {
+        if (question.getId() ==null){
+
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtModified());
+            questionMapper.create(question);
+        }else {
+
+            question.setGmtModified(question.getGmtModified());
+            questionMapper.update(question);
+        }
+    }
 }
